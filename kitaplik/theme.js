@@ -27,6 +27,7 @@ const setCSSVariables = () => {
         root.setProperty("--secondary", primary);
         switchedOnce = true;
     }
+    document.querySelector("img.logo-bg").style.filter = `grayscale(100%) brightness(${dark ? "150" : "50"}%)`;
 }
 
 const userPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;

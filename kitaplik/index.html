@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Kitaplığım</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="page" id="ana-sayfa" data-active>
+            <!--As kadro-->
+            <div class="main-view">
+                <div class="header">
+                    <div class="title">
+                        <h1><span>Kitaplığım</span> <i class="fa fa-pencil" data-title="Düzenle" id="edit"></i></h1>
+                    </div>
+                </div>
+                <div class="shelves">
+                    <div class="add-shelf">
+                        <i class="fa fa-add"></i>
+                        <div class="title">Yeni Raf</div>
+                    </div>
+                </div>
+            </div>
+            <!--Raf-->
+            <div class="shelf-view" data-shelf-key="">
+                <button onclick="
+                        document.querySelector('.main-view').style.display = 'block';
+                        document.querySelector('.shelf-view').style.display = 'none';
+                    ">Geri Dön&nbsp; <i class="fa fa-arrow-left"></i></button>
+                <button id="add-book">Kitap Ekle&nbsp; <i class="fa fa-plus"></i></button><br><br>
+                Görünüm: <select id="shelf-display">
+                    <option value="container" selected>Konteynır</option>
+                    <option value="image-based">Görsel</option>
+                </select>
+                <div class="books"></div>
+            </div>
+        </div>
+        <div class="page p" id="arama">
+            <div class="search">
+                <input type="text" id="src-term" placeholder="Bir kitap ismi girin...">
+                <select id="criterion">
+                    <option value="0">İsim</option>
+                    <option value="1">Yazar</option>
+                    <option value="2">Yayınevi</option>
+                </select>
+                <button id="ok">OK</button>
+            </div>
+            <div class="empty">Aradığınız kriterlere göre bir sonuç bulunamadı.</div>
+            <div class="results"></div>
+        </div>
+        <div class="page p" id="dahasi">
+            <div class="sections">
+                <div class="label" id="paylas">Kitaplığı Paylaş / İçeri Aktar <i class="fa fa-share"></i></div>
+                <div class="section">
+                    <ul>
+                        <li>Kod ile Paylaş (Çevrim içi&nbsp;<i class="fa fa-wifi"></i>)</li>
+                        <div>
+                            <div class="buttons-share">
+                                <button id="login-1">Giriş Yap (Google ile)</button>
+                                <button id="logout-1">Çıkış Yap</button>
+                                <button id="create-code" disabled>QR Kod Oluştur</button>
+                                <button id="delete-acc">Hesabımı Sil</button>
+                            </div><br><br>
+                            <span>Not: Aşağıda oluşturulacak kod üzerinden herkes kitaplığınıza erişebilir. Kitaplığınızı gizli tutmaya ihtiyacınız varsa <a href="#share-with-file" class="inpage">"Dosya ile Paylaş"</a> seçeneğini tercih etmelisiniz.</span><br><br>
+                            <div class="code-info">
+                                <canvas id="qr-code"></canvas>
+                                <span id="code-display">---</span>
+                            </div>
+                        </div><br><br>
+                        <li>Dosya ile Paylaş</li>
+                        <div id="share-with-file">
+                            <button id="download-file">Dosya (<span id="file-size"></span> kB)</button><br><br>
+                            <span>Bu dosyayı başka bir cihazda aşağıdaki <a href="#load-from-file" class="inpage">"Dosya ile İçeri Aktar"</a> sekmesinden seçerek içeri aktarabilirsiniz.</span>
+                        </div><br><br>
+                        <li>Kod ile İçeri Aktar (Çevrim içi&nbsp;<i class="fa fa-wifi"></i>)</li>
+                        <div>
+                            <input type="text" id="enter-code"><br><br>
+                            <label>Var olanın üzerine ekle: <input type="checkbox" id="overwrite-current-with-code" checked></label><br>
+                            <button id="load-with-code">Kitaplığı Yükle</button>
+                        </div><br><br>
+                        <li>Dosyadan İçeri Aktar</li>
+                        <div id="load-from-file">
+                            <label>Var olanın üzerine ekle: <input type="checkbox" id="overwrite-current" checked></label><br>
+                            <button id="load-file">Dosya Yükle</button>
+                            <input type="file" id="load-file-real" accept=".txt, .json">
+                            <button id="load-file-complete" disabled>Ekle</button>
+                        </div>
+                    </ul>
+                </div>
+                <div class="label" id="yedekler">Yedekler <i class="fa fa-folder"></i></div>
+                <div class="section">
+                    <p id="backups">Yedeklerinize ulaşmak veya yedekleme yapmak için lütfen giriş yapın.</p>
+                    <p id="warning-1">DİKKAT: Aynı anda en fazla 3 yedek saklanır. Daha eski yedekler silinir! Yeni bir yedekleme yapıldığında "Yedek 1" bölmesine işlenir. Eğer varsa "Yedek 3" silinir.</p>
+                    <button id="make-backup">Yedekle</button><br><br>
+                </div>
+                <div class="label" id="ayarlar">Ayarlar <i class="fa fa-gear"></i></div>
+                <div class="section">
+                    <p>Sürüm: <span>v1.0.0 (2025-06-22)</span></p>
+                    <div class="choose-color">Ana Renk: <div id="colors">
+                        <button class="blue"></button>
+                        <button class="yellow"></button>
+                        <button class="green"></button>
+                        <button class="pink"></button>
+                    </div></div>
+                    <p id="char-quota">Yerel Depolama Karakter Kotası: <meter value="0" min="0" max="0" id="quota" data-title="Veri, sayfa açıkken performans için tarayıcıda tutulur."></meter>
+                    <span id="quota-display">--/2000000</span></p>
+                </div>
+                <div class="label" id="destek">Destek <i class="fa fa-comment"></i></div>
+                <div class="section">
+                    <p>Geri bildirim formu:</p>
+                    <p>NOT: Geri bildiriminize yanıt almak için mail adresinizi girmelisiniz.</p>
+                    <div class="feedback-form">
+                        <input type="text" id="email" placeholder="Cevap alabilmeniz için gereklidir*">
+                        <input type="text" id="topic" placeholder="Birkaç kelimelik özet">
+                        <textarea id="feedback" placeholder="Soruna/yoruma dair açıklama (maks. 200 karakter)" maxlength="200"></textarea>
+                        <button id="send-feedback">Gönder</button>
+                    </div>
+                </div>
+                <div class="label" id="istatistikler">İstatistikler <i class="fa fa-calculator"></i></div>
+                <div class="section">
+                    <ul id="stats">
+                        <li>Siteye ilk giriş tarihi: <span id="first-visit-date"></span></li>
+                        <li>Kayıt olma tarihi: <span id="sign-in-date"></span></li>
+                        <li>Son yedekleme tarihi: <span id="last-backup-date"></span></li>
+                        <li>Toplam raf sayısı: <span id="shelf-count"></span></li>
+                        <li>Toplam kitap sayısı: <span id="book-count"></span></li>
+                    </ul>
+                    <p>Yerel depolama karakter kotası aşıldığında daha fazla kitap veya raf eklenemez. Bu kotayı "Daha Fazla > Ayarlar" bölümünden görebilirsiniz.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Ekranın üzerindeki fantastik şeyler-->
+    <img src="../logo.png" alt="logo" class="logo-bg">
+    <div class="modal" id="add-shelf">
+        <div class="close">&times;</div>
+        <h2>Raf Oluştur</h2>
+        <hr class="bp">
+        <div class="content">
+            <input type="text" id="name" placeholder="Raf ismi" data-required="true" maxlength="16">
+            <input type="color" id="color" value="#daa520" data-default="#daa520" data-required="true">
+            <label>İkon:&nbsp;<select id="icon" data-default="Kitap" data-required="true"></select></label>
+            <i id="test" class="fa fa-book" style="font-size: 25px;"></i>
+            <div class="error"><i class="fa fa-times-circle"></i>&nbsp; Gerekli tüm bölmeleri doldurunuz!</div>
+            <button id="submit" data-args="name,color,icon" data-error="error">Oluştur</button>
+        </div>
+    </div>
+    <div class="modal" id="edit-shelf">
+        <div class="close">&times;</div>
+        <h2>Rafı Düzenle</h2>
+        <hr class="bp">
+        <div class="content">
+            <input type="text" id="name" placeholder="Raf ismi" data-required="true" maxlength="16">
+            <input type="color" id="color" value="#daa520" data-default="#daa520" data-required="true">
+            <label>İkon:&nbsp;<select id="icon" data-default="Kitap" data-required="true"></select></label>
+            <div class="error"><i class="fa fa-times-circle"></i>&nbsp; Gerekli tüm bölmeleri doldurunuz!</div>
+            <button id="submit" data-args="name,color,icon" data-error="error">Kaydet</button>
+        </div>
+    </div>
+    <div class="modal" id="add-book">
+        <div class="close">&times;</div>
+        <h2>Kitap Ekle</h2>
+        <hr class="bp">
+        <div class="content">
+            <input type="text" id="name" placeholder="Kitap ismi" data-required="true">
+            <div class="control">
+                <button id="previous-result"><i class="fa fa-arrow-left"></i></button>
+                <button id="google-books-search">Google Books'da Arat (önerilir)&nbsp; <i
+                        class="fab fa-google"></i></button>
+                <button id="next-result"><i class="fa fa-arrow-right"></i></button>
+            </div>
+            <input type="text" id="authors" placeholder="Yazar(lar)">
+            <input type="text" id="publisher" placeholder="Yayınevi">
+            <input type="text" id="publishedOn" placeholder="Yayın Tarihi">
+            <input type="text" id="thumbnail" placeholder="Resim URL'si">
+            <img src="" alt="Görsel önizlemesi" id="preview">
+            <div class="error"><i class="fa fa-times-circle"></i>&nbsp; Gerekli tüm bölmeleri doldurunuz!</div>
+            <button id="submit" data-args="name,authors,publisher,publishedOn,thumbnail"
+                data-error="error">Ekle</button>
+        </div>
+    </div>
+    <div class="modal" id="edit-book">
+        <div class="close">&times;</div>
+        <h2>Kitabı Düzenle</h2>
+        <hr class="bp">
+        <div class="content">
+            <input type="text" id="name" placeholder="Kitap ismi" data-required="true">
+            <input type="text" id="authors" placeholder="Yazar(lar)">
+            <input type="text" id="publisher" placeholder="Yayınevi">
+            <input type="text" id="publishedOn" placeholder="Yayın Tarihi">
+            <input type="text" id="thumbnail" placeholder="Resim URL'si">
+            <input type="hidden" id="key">
+            <img src="" alt="Görsel önizlemesi" id="preview">
+            <div class="error"><i class="fa fa-times-circle"></i>&nbsp; Gerekli tüm bölmeleri doldurunuz!</div>
+            <button id="submit" data-args="name,authors,publisher,publishedOn,thumbnail,key"
+                data-error="error">Kaydet</button>
+        </div>
+    </div>
+    <div class="modal" id="delete">
+        <div class="content">
+            <input type="hidden" id="type">
+            <input type="hidden" id="key">
+            <p>Bu nesneyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.</p>
+            <button id="submit" data-args="type,key">Evet</button>
+            <button id="cancel">İptal</button>
+            <div class="error"></div>
+        </div>
+    </div>
+    <div class="modal" id="copy-link">
+        <div class="close">&times;</div>
+        <h2>Bağlantıyı Kopyala</h2>
+        <hr class="bp">
+        <div class="content">
+            <div class="copy-box">
+                <input id="link" disabled></input>
+                <i class="fa fa-copy" id="copy-btn" data-title="Kopyala"></i>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="kvkk">
+        <div class="close" style="visibility: hidden;">&times;</div>
+        <h2>Hoş Geldiniz!</h2>
+        <hr class="bp">
+        <div class="content">
+            <p>Uygulamaya devam edebilmeniz için onayınıza ihtiyacımız var:</p>
+            <span style="display: flex; gap: 1rem; align-items: center;"><input type="checkbox" id="kvkk-kabul" data-classic> <a style="color: dodgerblue;" href="/kvkk-aydinlatma-metni/" target="_blank">KVKK Aydınlatma Metni</a> ve 
+            <a style="color: dodgerblue;" href="/gizlilik-politikasi/" target="_blank">Gizlilik Politikası</a>’nı okudum, anladım ve kabul ediyorum.</span>
+            <button id="tamam-kvkk" style="visibility: hidden;">Tamam</button>
+        </div>
+    </div>
+    <div class="modal" id="delete-account">
+        <div class="close">&times;</div>
+        <h2>Hesap Silme İşlemi</h2>
+        <hr class="bp">
+        <div class="content">
+            <p>Bu işlem geri alınamaz. Doğrulamak için aşağıdaki metin kutusuna "EMİNİM" yazın.</p>
+            <input type="text" id="delete-account-verify">
+            <button id="delete-account" disabled>Hesabımı Sil</button>
+        </div>
+    </div>
+    <div class="context-menu" id="shelf">
+        <p class="action" id="open">Aç&nbsp; <i class="fa fa-arrow-right"></i></p>
+        <p class="action" id="edit">Düzenle&nbsp; <i class="fa fa-pencil"></i></p>
+        <p class="action" id="share">Paylaş&nbsp; <i class="fa fa-share"></i></p>
+        <hr>
+        <p class="action" id="delete">Sil&nbsp; <i class="fa fa-trash"></i></p>
+    </div>
+    <div class="mask"></div>
+    <div class="navbar">
+        <span class="item" id="ana-sayfa" data-active><span>Ana Sayfa</span> <i class="fa fa-home"></i></span>
+        <span class="item" id="arama"><span>Kitaplıkta Ara</span> <i class="fa fa-magnifying-glass"></i></span>
+        <span class="item" id="dahasi"><span>Daha Fazla</span> <i class="fa fa-ellipsis"></i></span>
+        <span class="item" id="tema" data-no-page><span>Temayı Değiştir</span> <i class="fa fa-sun"></i></span>
+        <span class="item" id="gizlilik-politikasi" data-no-page><span>Gizlilik Politikası</span> <i class="fa fa-lock"></i></span>
+    </div>
+</body>
+
+</html>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
+<script src="script.js" type="module" defer></script>
+<script src="https://kit.fontawesome.com/d5360bfebf.js" crossorigin="anonymous"></script>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                font-family: sans-serif;
+                line-height: 1.6;
+                padding: 2rem;
+                max-width: 800px;
+                margin: auto;
+            }
+            h1, h2 {
+                color: #333;
+            }
+            hr {
+                border: none;
+                padding: none;
+                margin: none;
+            }
+            hr, h1 {
+                border-bottom: 2px solid #ddd;
+                padding-bottom: 0.5rem;
+            }
+            ul {
+                padding-left: 1.5rem;
+            }
+            .links a {
+                color: dodgerblue;
+                text-decoration: none;
+            }
+            .links a:hover {
+                text-decoration: underline;
+            }
+        </style>
+        <title>Gizlilik Politikası | KirjaLira</title>
+    </head>
+    <body>
+        <div style="display: flex; gap: 1rem;" class="links">
+            <a href="../kitaplik"><i class="fa fa-book"></i> Kitaplığa Dön</a><br><br>
+            <a href="../"><i class="fa fa-home"></i> Ana Sayfaya Dön</a><br><br>
+        </div>
+        <hr>
+        <h1>Gizlilik Politikası</h1>
+        <p><strong>Son güncelleme tarihi:</strong> 23.06.2025</p>
+        <p>
+            Bu gizlilik politikası, <strong>KirjaLira</strong> adlı web uygulamasının kullanıcılarına ait verilerin nasıl
+            toplandığını, işlendiğini, saklandığını ve korunduğunu açıklar. KirjaLira’yı kullanarak bu politikayı kabul
+            etmiş sayılırsınız.
+        </p>
+
+        <h2>1. Toplanan Veriler</h2>
+        <h3>a) Üyelik Gerekmeden</h3>
+        <ul>
+            <li>Kullanıcının oluşturduğu <strong>kitaplık</strong> ve <strong>raf verileri</strong>, yalnızca kullanıcının
+                cihazındaki <em>localStorage</em>’ta saklanır.</li>
+            <li>Bu verilere site yönetimi veya üçüncü taraflar tarafından erişim yoktur.</li>
+        </ul>
+
+        <h3>b) Google ile Giriş (Firebase Authentication)</h3>
+        <ul>
+            <li>Google hesabında tanımlı olan <strong>ad, soyad veya takma ad</strong> (varsa)</li>
+            <li><strong>Google e-posta adresi</strong></li>
+            <li><strong>Firebase kullanıcı kimliği (UID)</strong></li>
+            <li><strong>Hesap oluşturma tarihi</strong> ve <strong>son yedekleme tarihi</strong></li>
+        </ul>
+        <p>
+            Bu veriler, yalnızca kullanıcıya ait kitaplık verilerinin güvenli bir şekilde yedeklenmesi, farklı cihazlardan
+            erişilebilmesi ve isteğe bağlı olarak yayınlanabilmesi amacıyla kullanılır. Google hesabındaki bilgiler,
+            KirjaLira tarafından değiştirilemez veya doğrulanamaz.
+        </p>
+
+        <h3>c) Geri Bildirim Formu</h3>
+        <ul>
+            <li><strong>E-posta adresi</strong> (isteğe bağlı)</li>
+            <li><strong>Geri bildirim konusu</strong></li>
+            <li><strong>Geri bildirim metni</strong></li>
+        </ul>
+
+        <h2>2. Verilerin Kullanım Amaçları</h2>
+        <ul>
+            <li>Kitaplık verilerinin yedeklenmesi ve yönetilmesi</li>
+            <li>Yayınlanan kitaplıkların paylaşılması</li>
+            <li>Hizmet kalitesinin artırılması</li>
+            <li>Geri bildirimlere cevap verilmesi</li>
+        </ul>
+
+        <h2>3. Verilerin Paylaşımı</h2>
+        <p>
+            Kullanıcı verileri yalnızca <strong>Firebase (Google)</strong> servis altyapısında saklanır. Üçüncü kişilerle
+            paylaşılmaz, satılmaz veya devredilmez.
+        </p>
+
+        <h2>4. Saklama Süresi</h2>
+        <ul>
+            <li>Yayınlanan kitaplık verileri, kullanıcı silinmesini talep edene veya web sitesi üzerinden silinmiş halini yayınlayana kadar Firebase Realtime Database’de saklanır.</li>
+            <li>Kullanıcının yaptığı son üç yedekleme, kullanıcı silinmesini talep edene kadar Firebase Realtime Database’de saklanır.</li>
+            <li>Geri bildirimler makul süre boyunca tutulur.</li>
+            <li>Kullanıcı, verilerinin silinmesini talep edebilir.</li>
+        </ul>
+
+        <h2>5. Kullanıcı Hakları</h2>
+        <p>
+            Kullanıcılar, kişisel verilerine erişme, düzeltme, silme ve hesaplarını kapatma haklarına sahiptir.
+            Talepler için şu adrese e-posta gönderilebilir: <strong>kirjalira@gmail.com</strong>
+        </p>
+
+        <h2>6. Güvenlik</h2>
+        <p>
+            Veriler, <strong>Google Firebase</strong> altyapısında korunur. Yerel tarayıcı belleğinde tutulan veriler
+            (localStorage), sadece kullanıcı cihazında bulunur ve sunuculara gönderilmez.
+        </p>
+
+        <h2>7. Çerezler ve localStorage Kullanımı</h2>
+        <p>
+            KirjaLira çerez (cookie) kullanmaz. Ancak, kitaplık bilgileri <strong>localStorage</strong> yoluyla kullanıcının
+            tarayıcısında tutulur.
+        </p>
+
+        <h2>8. 13 Yaş Altı Kullanıcılar</h2>
+        <p>
+            KirjaLira, 13 yaş altı bireyleri hedeflemez. Bu yaş grubuna ait olduğu bilinen kişilerden kişisel veri
+            toplanmaz. Böyle bir durum tespit edilirse ilgili veriler silinir.
+        </p>
+
+        <h2>9. Politika Güncellemeleri</h2>
+        <p>
+            Gizlilik politikası zaman zaman güncellenebilir. Güncellenmiş versiyon her zaman bu sayfada yayımlanacaktır.
+        </p>
+    </body>
+</html>
+<script src="https://kit.fontawesome.com/d5360bfebf.js" crossorigin="anonymous"></script>

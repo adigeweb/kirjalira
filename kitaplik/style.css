@@ -1,0 +1,871 @@
+:root {
+    --text: white;
+    --bg: #333;
+    --darker: #111;
+    --mid: gray;
+    --screen-h: 0;
+    --screen-w: 0;
+    --primary: dodgerblue;
+    --secondary: rgb(30, 224, 255);
+    --theme: 1;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    overflow-x: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    height: 100vh;
+    width: 100vw;
+}
+
+.container [class$=-view] {
+    height: auto;
+    width: auto;
+}
+
+.container .shelf-view {
+    display: none;
+    padding: 1rem;
+}
+
+.header {
+    background: linear-gradient(calc(55.62deg * var(--theme)), var(--primary), var(--secondary));
+    color: white;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20%;
+    box-shadow: 0 10px 15px 0 rgba(255, 255, 255, .3);
+    transition: .2s all;
+}
+
+.header .title h1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header .title i.fa {
+    font-size: 22px;
+    color: white;
+}
+
+/* Shelves */
+
+.shelves {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, max-content));
+    gap: 1rem;
+    padding: 2rem 5rem;
+    justify-content: start;
+}
+
+.shelf,
+.add-shelf {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.shelf i.fa,
+.add-shelf i.fa {
+    color: white;
+    background: goldenrod;
+    border-radius: 50%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    font-size: 20px;
+    transition: .2s;
+}
+
+.shelf i.fa:hover,
+.add-shelf i.fa:hover {
+    filter: brightness(0.8);
+    cursor: pointer;
+}
+
+.add-shelf i.fa {
+    background: gray;
+}
+
+.shelf .title,
+.add-shelf .title {
+    display: flex;
+}
+
+/* Titles */
+
+[data-title] {
+    position: relative;
+    cursor: pointer;
+}
+
+[data-title]::after {
+    content: attr(data-title);
+    position: absolute;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 14px;
+    bottom: -25px;
+    left: 60%;
+    background: var(--darker);
+    padding: 0.5rem;
+    transition: .2s;
+    opacity: 0;
+    pointer-events: none;
+    border-radius: 2px;
+}
+
+[data-title]:hover::after {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Modals */
+
+.modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--darker);
+    height: auto;
+    width: 40%;
+    z-index: 10;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: .5em;
+    box-shadow: 0 0 10px 10px rgba(255, 255, 255, .3);
+    padding: 1rem;
+}
+
+.modal .close {
+    font-size: 22px;
+    position: absolute;
+    right: 1.5rem;
+    top: 1rem;
+    cursor: pointer;
+}
+
+.modal .close:hover {
+    color: var(--mid);
+}
+
+.modal .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    max-width: 90%;
+    gap: 1rem;
+}
+
+.mask {
+    display: none;
+    background: rgba(0, 0, 0, .5);
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9;
+}
+
+/* Temel Bileşenler */
+
+input, textarea {
+    background: var(--darker);
+    border: 2px solid var(--primary);
+    border-radius: .2em;
+    caret-color: var(--text);
+    color: var(--text);
+    padding: 0.4rem;
+    transition: .2s;
+}
+
+input[type=color] {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    padding: 0;
+    background: none;
+    height: 2rem;
+    width: 2rem;
+}
+
+input[type=color]::-webkit-color-swatch-wrapper {
+    padding: 0.2rem;
+    cursor: pointer;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+}
+
+input[type=color]:hover::-webkit-color-swatch-wrapper {
+    filter: brightness(0.8);
+}
+
+input[type=color]::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+}
+
+select {
+    background: var(--darker);
+    border: 2px solid var(--primary);
+    border-radius: .2em;
+    caret-color: var(--text);
+    color: var(--text);
+    padding: 0.4rem 0.2rem;
+    transition: .2s;
+    cursor: pointer;
+}
+
+button {
+    background: var(--darker);
+    border: 2px solid var(--primary);
+    border-radius: .2em;
+    caret-color: var(--text);
+    color: var(--text);
+    padding: 0.4rem;
+    transition: .2s;
+    cursor: pointer;
+}
+
+button:not(:disabled):hover {
+    background: var(--primary);
+}
+
+button:active {
+    scale: 1.05;
+}
+
+button:disabled {
+    filter: brightness(80%);
+    cursor: not-allowed;
+}
+
+:is(input:not([type=color]):not([disabled]), select, textarea):focus,
+:is(input:not([type=color]):not([disabled]), select, textarea):active {
+    outline: none;
+    border: 2px solid var(--text);
+}
+
+input[type=color]:focus::-webkit-color-swatch-wrapper,
+input[type=color]:active::-webkit-color-swatch-wrapper {
+    border: 2px solid var(--text);
+}
+
+/* Context Menu */
+
+.context-menu {
+    display: none;
+    position: absolute;
+    background: var(--darker);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+}
+
+.context-menu .action {
+    cursor: pointer;
+}
+
+.context-menu .action:hover {
+    filter: brightness(50%);
+}
+
+.action#delete:not([data-ask-insurance]) {
+    color: rgb(255, 109, 109);
+}
+
+/* Navbar */
+
+.navbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 5rem;
+    background: linear-gradient(calc(55.62deg * var(--theme)), var(--primary), var(--secondary));
+    box-shadow: 0 -10px 15px 0 rgba(255, 255, 255, .3);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 1rem;
+    transition: .2s background;
+}
+
+.navbar span.item {
+    color: white;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    cursor: pointer;
+    padding: 1rem;
+    border-radius: 0.5em;
+    transition: .2s;
+    position: relative;
+    bottom: 0;
+}
+
+.navbar span.item:hover {
+    background: var(--text);
+    color: var(--darker);
+    bottom: 5px;
+}
+
+.navbar span.item[data-active] {
+    background: var(--text);
+    color: var(--darker);
+}
+
+.page {
+    display: none;
+    padding-bottom: 7.5rem;
+}
+
+.page[data-active] {
+    display: block;
+}
+
+.page.p {
+    padding: 1rem;
+    padding-bottom: 7.5rem;
+}
+
+/* Kitaplar */
+
+.books {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.books .book {
+    position: relative;
+    background: var(--darker);
+    padding: 1rem;
+    border-radius: .5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 12rem;
+    padding-bottom: 4rem;
+}
+
+.books .book #name {
+    font-size: 22px;
+    text-align: center;
+}
+
+.books .book p {
+    color: var(--mid);
+    text-align: center;
+}
+
+.books .book img#thumbnail {
+    width: 100%;
+    border-radius: .5em;
+    max-height: 17.5rem;
+}
+
+.books .book .thumbnail-container {
+    height: 17.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+/* Kapak Fotoğrafoyla (yazım hatasını düzeltip sonra bilerek geri yaptım.) */
+
+.books[data-display=image-based] {
+    gap: 0;
+}
+
+.books[data-display=image-based] .book {
+    background: transparent;
+    height: 18rem;
+    width: 10rem;
+    padding: 0;
+}
+
+.books[data-display=image-based] .book img#thumbnail {
+    height: 18rem;
+    width: 100%;
+    border-radius: 0;
+    object-fit: cover;
+}
+
+.books[data-display=image-based] .book :is(#name, p, span) {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: transparent;
+}
+
+.books[data-display=image-based] .book i.fa {
+    color: transparent;
+}
+
+.books[data-display=image-based] .book:hover :is(#name, p, span, i.fa) {
+    color: white;
+}
+
+.books[data-display=image-based] .book:hover :is(p, span):not(#name) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+.books[data-display=image-based] .book:hover img {
+    filter: brightness(50%);
+    transition: .2s;
+}
+
+.books[data-display=image-based] .book #name {
+    font-size: 20px;
+    margin-top: 0.3rem;
+}
+
+.books[data-display=image-based] .book #authors {
+    top: 40%;
+}
+
+.books[data-display=image-based] .book :has(#publisher) {
+    height: 100%;
+    width: 100%;
+    font-size: 0;
+}
+
+.books[data-display=image-based] .book #publisher {
+    top: 58%;
+    font-size: 15px;
+}
+
+.books[data-display=image-based] .book #publishedOn {
+    top: 76%;
+    font-size: 15px;
+}
+
+/* Arama Sonuçları */
+
+.results {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-direction: column;
+    margin-top: 2rem;
+    width: 99%;
+}
+
+.results .box {
+    background: var(--mid);
+    padding: 1rem;
+}
+
+.results .box p#name {
+    font-size: 19px;
+}
+
+.results .box p.location {
+    color: skyblue;
+    text-decoration: underline;
+}
+
+.empty {
+    display: none;
+    color: var(--mid);
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 22px;
+}
+
+/* Daha Fazla */
+
+.sections {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.section {
+    height: 0;
+    overflow: hidden;
+    background: var(--mid);
+    position: relative;
+    bottom: 0.5rem;
+    padding: 0 0.5rem;
+    transition: .2s;
+    border-top: 2px solid transparent;
+}
+
+.section[data-active] {
+    height: auto;
+    overflow: auto;
+    margin: 0;
+    border-top: 2px solid var(--text);
+    padding: 0.5rem 0.5rem;
+}
+
+.label {
+    background: var(--mid);
+    padding: 1rem 0.5rem;
+    font-size: 19px;
+    cursor: pointer;
+}
+
+.label:hover {
+    filter: brightness(80%);
+}
+
+.label i.fa {
+    margin-left: 0.35rem;
+}
+
+.code-info {
+    display: flex;
+    flex-direction: column;
+}
+
+canvas#qr-code {
+    position: relative;
+    height: 100px;
+    width: 100px;
+    min-height: 100px;
+    min-width: 100px;
+    max-height: 100px;
+    max-width: 100px;
+    background: white;
+    border-top-left-radius: .5em;
+    border-top-right-radius: .5em;
+    width: 5rem;
+}
+
+span#code-display {
+    color: black;
+    background: white;
+    border-bottom-left-radius: .5em;
+    border-bottom-right-radius: .5em;
+    width: min-content;
+    padding: 0.5rem;
+    width: calc(100px - 1rem);
+    max-width: calc(100px - 1rem);
+    text-align: center;
+}
+
+/* Arkaplandaki Logo */
+
+img.logo-bg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(calc(90deg - 55.62deg));
+    height: 15rem;
+    width: 15rem;
+    border-radius: 50%;
+    filter: grayscale(100%) brightness(50%);
+    z-index: -1;
+}
+
+/* Diğer (Kategorize Etmeye Üşendiklerim) */
+
+hr.bp {
+    /* Bottom Padding. Bir gün unutur merak ederim. :) */
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    height: auto;
+}
+
+[contenteditable] {
+    outline: 2px solid var(--text);
+    padding: 0.2rem;
+}
+
+.error {
+    display: none;
+    background: rgb(255, 109, 109);
+    padding: 0.5rem;
+    border-radius: .5em;
+}
+
+.search {
+    display: flex;
+    width: 100%;
+    height: 3rem;
+    gap: 0.5rem;
+}
+
+.search input#src-term {
+    flex-grow: 1;
+    font-size: 22px;
+}
+
+.search button#ok {
+    height: 3rem;
+    width: 3rem;
+    border-radius: 0.5em;
+}
+
+hr {
+    width: 100%;
+}
+
+.gray {
+    color: var(--mid);
+}
+
+ul li+div {
+    margin-top: 0.75rem;
+}
+
+a.inpage {
+    color: var(--secondary);
+}
+
+#load-file-real {
+    display: none;
+}
+
+li i.fa {
+    font-size: 13px;
+    background: var(--primary);
+    padding: 0.3rem;
+    border-radius: 50%;
+    text-align: center;
+}
+
+input[type=checkbox]:not([data-classic]) {
+    position: relative;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    outline: none;
+    background: var(--darker);
+    border-radius: .5em;
+    width: 1.5rem;
+    margin-left: 0.75rem;
+    cursor: pointer;
+}
+
+input[type=checkbox]:not([data-classic]):checked {
+    background: var(--primary);
+    outline: none;
+    border: none;
+}
+
+input[type=checkbox]:not([data-classic])::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(-50%, -50%);
+    height: 1rem;
+    width: 1rem;
+    background: var(--text);
+    border-radius: 50%;
+    transition: .2s all;
+}
+
+input[type=checkbox]:not([data-classic]):checked::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translate(-50%, -50%);
+    height: 1rem;
+    width: 1rem;
+    background: var(--text);
+    border-radius: 50%;
+}
+
+input[type=checkbox]:not([data-classic]):focus {
+    outline: none;
+    border: none;
+}
+
+label {
+    display: flex;
+    align-items: baseline;
+}
+
+select#criterion {
+    text-align: center;
+    border-radius: .5rem;
+}
+
+.choose-color {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#colors {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.1rem;
+}
+
+#colors button {
+    height: 2rem;
+    width: 2rem;
+    border: none;
+    position: relative;
+}
+
+#colors button.blue { background: linear-gradient(dodgerblue, rgb(30, 224, 255)); }
+#colors button.yellow { background: linear-gradient(goldenrod, yellow); }
+#colors button.green { background: linear-gradient(green, limegreen); }
+#colors button.red { background: linear-gradient(rgb(172, 16, 47), red); }
+#colors button.pink { background: linear-gradient(violet, pink); }
+
+#colors button.active {
+    filter: brightness(65%);
+}
+
+#colors button.active::after {
+    content: "✓";
+    color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+meter {
+    height: 1rem;
+}
+
+meter::-webkit-meter-optimum-value {
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    background-position: 100% 100%;
+}
+
+.buttons-share {
+    display: flex;
+    gap: 0.5rem;
+}
+
+td {
+    border: 2px solid var(--text);
+    padding: .25rem .5rem;
+}
+
+.control-buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    position: absolute;
+    bottom: 1.5rem;
+}
+
+.copy-box {
+    position: relative;
+    height: 2rem;
+    width: auto;
+}
+
+input#link {
+    padding: 0.5rem;
+    padding-right: 2rem;
+}
+
+#copy-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0.75rem;
+    display: flex;
+    cursor: pointer;
+}
+
+input:disabled {
+    filter: brightness(80%);
+    cursor: not-allowed;
+}
+
+.feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.feedback-form :is(input, textarea, button) {
+    width: max-content;
+}
+
+textarea#feedback {
+    resize: vertical;
+    height: 4rem;
+    max-height: 10rem;
+}
+
+footer {
+    text-align: center;
+    margin-bottom: 6.5rem;
+}
+
+footer a {
+    color: gray;
+    text-decoration: none;
+    transition: .2s;
+}
+
+footer a:hover {
+    text-decoration: underline;
+    letter-spacing: 0.1rem;
+}
+
+ul#stats li span {
+    color: var(--secondary);
+    text-decoration: underline;
+}
+
+i.fa.fa-wifi {
+    color: white;
+}
+
+/* Responsive */
+
+@media screen and (max-width: 600px) {
+    .navbar span.item span { display: none; }
+    .modal { width: 90%; }
+    .books { justify-content: center; gap: 2rem; }
+    .shelves {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 1rem;
+        padding: 2rem;
+    }
+}

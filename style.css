@@ -1,0 +1,176 @@
+body {
+    background: #333;
+    color: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-grow: 1;
+}
+
+.left, .right {
+    flex: 1;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.left {
+    gap: 3rem;
+}
+
+.right {
+    background: linear-gradient(to right, rgb(30, 224, 255), dodgerblue);
+    box-shadow: -20px 0 20px rgba(30, 224, 255, 0.5);
+    gap: 0;
+}
+
+button#main {
+    background: linear-gradient(70deg, rgb(30, 224, 255), dodgerblue, dodgerblue, rgb(30, 224, 255));
+    background-size: 200% 100%;
+    padding: 0.75rem 1.5rem;
+    color: white;
+    font-weight: bolder;
+    border: none;
+    border-radius: 1.5em;
+    cursor: pointer;
+    box-shadow: 0 0 15px 1px rgba(255, 255, 255, .5);
+    transition: .35s;
+}
+
+button#main:hover {
+    box-shadow: 0 0 15px 5px rgba(255, 255, 255, .5);
+}
+
+button#main:active {
+    background-position-x: 100%;
+}
+
+img.logo {
+    height: 10rem;
+    width: 10rem;
+    border-radius: 50%;
+    animation: 3s logo-rotate linear infinite;
+    transition: .2s;
+    cursor: pointer;
+    position: relative;
+    border: 5px solid #333;
+    outline: 4px solid white;
+}
+
+img.logo:active {
+    scale: 1.02;
+    filter: brightness(120%);
+}
+
+hr#logo-line {
+    width: 95%;
+    position: relative;
+    top: calc(8rem + 13px);
+    border: 2px solid white;
+}
+
+#typewrite {
+    font-size: 30px;
+    transition: .2s;
+    text-shadow: 5px 5px 15px rgba(255, 255, 255, .8);
+    -webkit-text-shadow: 5px 5px 15px rgba(255, 255, 255, .8);
+    opacity: 0.3;
+}
+
+#typewrite::first-letter {
+    text-transform: capitalize;
+}
+
+/* Sağ Taraf */
+
+.right {
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 18rem;
+    flex-shrink: 0;
+}
+
+.content h2 {
+    font-size: 30px;
+    text-align: center;
+}
+
+#back, #forward {
+    background: transparent;
+    font-size: 45px;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+#inst {
+    height: 15rem;
+    width: 15rem;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    flex-shrink: 0;
+    transition: .2s;
+}
+
+.title {
+    font-size: 35px;
+}
+
+::selection {
+    color: #333;
+    background: #ddd;
+}
+
+.links {
+    display: flex;
+    gap: 1rem;
+}
+
+.links a {
+    color: gray;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+/* Animasyonlar ve Responsivity */
+
+@keyframes logo-rotate {
+    from { rotate: 0; }
+    to { rotate: 360deg; }
+}
+
+@media only screen and (max-width: 750px) {
+    .container {
+        flex-direction: column;
+        gap: 1rem;
+        height: 200vh;
+    }
+    .left, .right {
+        height: 100vh;
+    }
+}
+
+button#main:focus {
+    outline: none;
+}
